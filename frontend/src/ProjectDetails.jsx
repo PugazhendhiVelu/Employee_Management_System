@@ -246,12 +246,12 @@ export default function ProjectDetails() {
                 <TableRow>
                   <TableCell>Teams</TableCell>
                   <TableCell>
-                    {project.teams && project.teams.length > 0 ? (
+                    {Array.isArray(project.teams) && project.teams.length > 0 ? (
                       project.teams.map((team, index) => (
                         <Box key={index} mb={2}>
-                          <Typography variant="subtitle1"><strong>Team Name:</strong> {team.name}</Typography>
-                          <Typography variant="subtitle1"><strong>Leader:</strong> {team.leader}</Typography>
-                          <Typography variant="subtitle1"><strong>Members:</strong> {team.members.join(', ')}</Typography>
+                          <Typography variant="subtitle1"><strong>Team Name:</strong> {team.name || 'N/A'}</Typography>
+                          <Typography variant="subtitle1"><strong>Leader:</strong> {team.leaderName || 'N/A'}</Typography>
+                          <Typography variant="subtitle1"><strong>Members:</strong> {Array.isArray(team.membersNames) ? team.membersNames.join(', ') : 'N/A'}</Typography>
                         </Box>
                       ))
                     ) : (
