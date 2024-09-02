@@ -10,7 +10,6 @@ const jwtt = require('jsonwebtoken');
 const DBConnect = require(path.join(__dirname, 'config', 'DBConnection'));
 const cookieParser = require('cookie-parser');
 const excelToJson = require('convert-excel-to-json');
-const fs = require('fs');
 const multer = require('multer');
 const EmployeeModel = require('./models/employees');
 const SequenceModel = require('./models/seq');
@@ -41,17 +40,7 @@ const addproject = require(path.join(__dirname, 'routes', 'addproject'));
 const getProject = require(path.join(__dirname, 'routes', 'projectid'));
 const editproject = require(path.join(__dirname, 'routes', 'editproject'));
 
-global.__basedir = __dirname;
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, 'uploads'));
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + "-" + Date.now() + "-" + file.originalname);
-  }
-});
-const upload = multer({ storage: storage });
+const upload = multer({ storage: multer.memoryStorage() });
 // Route to handle Excel file upload and process it
 app.post('/excel/upload', upload.single('uploadfile'), async (req, res) => {
   // Check if a file was uploaded
